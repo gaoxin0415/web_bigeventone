@@ -1,7 +1,7 @@
 $(function () {
 
 
-    // 1切换
+    // 1切换登录和注册页面
     $('#link_reg').on('click', function () {
         $('.login-box').hide();
         $('.reg-box').show();
@@ -12,7 +12,7 @@ $(function () {
         $('.reg-box').hide();
 
     })
-
+    // 2自定义校验规则
     var form = layui.form;
     form.verify({
         pwd: [
@@ -30,7 +30,7 @@ $(function () {
         }
     });
 
-    // 3
+    // 3ajax发起post请求
     var layer = layui.layer;
     $('#form_reg').on("submit", function (e) {
         e.preventDefault();
@@ -47,7 +47,9 @@ $(function () {
                     return layer.msg(res.message);
                 }
                 layui.msg('恭喜注册成功');
+                // 模拟点击表单事件
                 $("#link_login").click();
+                // 重置表单
                 $("#form_reg")[0].reset();
             }
 
