@@ -34,13 +34,14 @@ function getUserInof() {
         //         ("token") || ""
         // },
         success: function (res) {
-            console.log(res);
+            // console.log(res);
             // 判断状态码
             if (res.status !== 0) {
                 return layui.layer.msg(res.message);
             }
             // 请求成功 渲染用户头像信息
             renderAvatar(res.data);
+
         },
         // 防止为登录强行跳转
         // complete: function (res) {
@@ -61,13 +62,14 @@ function renderAvatar(user) {
     $("#welcome").html('欢迎&nbsp;&nbsp;' + name);
     // 2.用户头像
     if (user.user_pic !== null) {
-        // 有头像
+        //     // if (false) {
+        //     // 有头像
         $('.layui-nav-img').show().attr('src', user.user_pic);
-        $('.user-avatar').hide();
+        $('.text-avatar').hide();
     } else {
         // 没头像
         $('.layui-nav-img').hide();
         var text = name[0].toUpperCase();
-        $('.user - avatar').show().html(text);
+        $('.text-avatar').show().html(text);
     }
 } 

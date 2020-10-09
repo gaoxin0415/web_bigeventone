@@ -46,7 +46,7 @@ $(function () {
                 if (res.status != 0) {
                     return layer.msg(res.message);
                 }
-                layui.msg('恭喜注册成功');
+                layer.msg('恭喜注册成功');
                 // 模拟点击表单事件
                 $("#link_login").click();
                 // 重置表单
