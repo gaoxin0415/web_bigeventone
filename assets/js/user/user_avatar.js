@@ -35,31 +35,54 @@ $('#file').on('change', function (e) {
         .attr('src', newImgURL)  // 重新设置图片路径
         .cropper(options)        // 重新初始化裁剪区域
 
-    $('#btnUpload').on('click', function () {
-        var dataURL = $image
-            .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
-                width: 100,
-                height: 100
-            })
-            .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
-        // console.log(dataURL);
-        // console.log(typeof dataURL);
-
-        $.ajax({
-            method: 'POST',
-            url: '/my/update/avatar',
-            data: {
-                avatar: dataURL
-            },
-            success: function (res) {
-                if (res.status !== 0) {
-                    return layer.msg(res.message);
-                }
-                layer.msg('恭喜您，更换头像成功！');
-                window.parent.getUserInof();
-            }
-        })
-    })
-
 
 })
+
+$('#btnUpload').on('click', function () {
+    var dataURL = $image
+        .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
+            width: 100,
+            height: 100
+        })
+        .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
+    // console.log(dataURL);
+    // console.log(typeof dataURL);
+
+    $.ajax({
+        method: 'POST',
+        url: '/my/update/avatar',
+        data: {
+            avatar: dataURL
+        },
+        success: function (res) {
+            if (res.status !== 0) {
+                return layer.msg(res.message);
+            }
+            layer.msg('恭喜您，更换头像成功！');
+            window.parent.getUserInof();
+        }
+    })
+})
+
+getUserInof();
+function getUserInof() {
+    $.ajax({
+        method: 'GET',
+        url: '/my/userinfo',
+        success: function (res) {
+            console.log(res);
+            // 判断状态码
+            if (res.status !== 0) {
+                return layui.layer.msg(res.message);
+            }
+            // 请求成功 渲染用户头像信息
+            // renderAvatar(res.data);
+            $image
+                .cropper('destroy')      // 销毁旧的裁剪区域
+                .attr('src', res.data.user_pic)  // 重新设置图片路径
+                .cropper(options)        // 重新初始化裁剪区域
+
+        },
+
+    })
+}
